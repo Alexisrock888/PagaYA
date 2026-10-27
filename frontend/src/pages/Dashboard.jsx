@@ -1640,7 +1640,20 @@ function Dashboard() {
                             "activa"
                         }
                     >
-                        💵 Recargar
+                        <svg
+                            className="action-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                        >
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="M3 10h18M12 12v5m-2.5-2.5h5" />
+                        </svg>
+                        <span>Recargar</span>
                     </button>
 
                     <button
@@ -1654,7 +1667,19 @@ function Dashboard() {
                             "activa"
                         }
                     >
-                        💸 Transferir
+                        <svg
+                            className="action-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M7 7h14m0 0-4-4m4 4-4 4M17 17H3m0 0 4 4m-4-4 4-4" />
+                        </svg>
+                        <span>Transferir</span>
                     </button>
 
                     <button
@@ -1669,7 +1694,20 @@ function Dashboard() {
                                 });
                         }}
                     >
-                        📜 Historial
+                        <svg
+                            className="action-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M3 12a9 9 0 1 0 2.64-6.36L3 8" />
+                            <path d="M3 3v5h5m4-1v5l3 2" />
+                        </svg>
+                        <span>Historial</span>
                     </button>
 
                 </section>

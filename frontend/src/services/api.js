@@ -13,7 +13,7 @@ async function request(endpoint, options = {}) {
     // El token sigue siendo necesario para autenticar
     // las operaciones de la billetera.
     if (token) {
-        headers.Authorization = `Bearer ${token}`;
+        headers.Authorization = Bearer ;
     }
 
     let response;
@@ -74,6 +74,18 @@ const api = {
 
     profile: () =>
         request("/auth/profile"),
+
+    forgotPassword: (email) =>
+        request("/auth/forgot-password", {
+            method: "POST",
+            body: JSON.stringify({ email })
+        }),
+
+    resetPassword: (datos) =>
+        request("/auth/reset-password", {
+            method: "POST",
+            body: JSON.stringify(datos)
+        }),
 
     // ==========================================
     // BILLETERA

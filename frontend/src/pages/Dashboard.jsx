@@ -102,6 +102,20 @@ function Dashboard() {
     const [shareMessage, setShareMessage] =
         useState("");
 
+    const [dynamicCode, setDynamicCode] =
+        useState(() => String(Math.floor(100 + Math.random() * 900)));
+
+    const [visualCode, setVisualCode] =
+        useState(() => Math.random().toString(16).slice(2, 10).toUpperCase());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setDynamicCode(String(Math.floor(100 + Math.random() * 900)));
+            setVisualCode(Math.random().toString(16).slice(2, 10).toUpperCase());
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
     // ==========================================
     // CONTROLAR TRANSACCIONES RECIBIDAS VISTAS
     // ==========================================
@@ -1559,120 +1573,33 @@ function Dashboard() {
 
             <main className="dashboard-content">
 
-                {/* ==================================
-                    BIENVENIDA
-                ================================== */}
-
                 <section className="welcome">
-
-                    <p>
-                        Bienvenido
-                    </p>
-
-                    <h1>
-                        {user.nombre ||
-                            "Usuario"}{" "}
-                        {user.apellido ||
-                            ""}
-                    </h1>
-
+                    <div><p>Inicio</p><h1>{user.nombre || "Usuario"} {user.apellido || ""}</h1></div>
+                    <div className="welcome-status"><span aria-hidden="true"></span>{wallet?.estado === "activa" ? "Cuenta activa" : "Cuenta inactiva"}</div>
                 </section>
 
-                {/* ==================================
-                    ERROR
-                ================================== */}
+                {error && <div className="error-message">{error}</div>}
 
-                {error && (
-                    <div className="error-message">
-                        {error}
-                    </div>
-                )}
+                <div className="dashboard-grid">
+                    <section className="dashboard-main-column">
+                        <div className="balance-heading"><div><span>Saldo disponible</span><strong>{loading ? "Cargando..." : `$${formatoSaldo(wallet?.saldo)} ${wallet?.moneda || "COP"}`}</strong></div></div>
+                        <article className="digital-card" aria-label="Representación decorativa de tarjeta digital PagaYA">
+                            <div className="digital-card-top"><span>PagaYA</span><span>Tarjeta digital</span></div>
+                            <div className="digital-card-chip" aria-hidden="true"></div>
+                            <div className="digital-card-number" aria-label="Número oculto decorativo">••••  ••••  ••••  4821</div>
+                            <div className="digital-card-bottom"><div><small>Titular</small><strong>{user.nombre || "Usuario"} {user.apellido || ""}</strong></div><div className="contactless" aria-label="Elemento decorativo sin contacto"><svg viewBox="0 0 24 24"><path d="M8 8.5c2 2 2 5 0 7M12 6c3.5 3.5 3.5 8.5 0 12M16 3.5c5 5 5 12 0 17" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg></div></div>
+                            <div className="card-decoration" aria-label="Código visual decorativo">{visualCode}</div>
+                        </article>
+                        <div className="dynamic-key"><span>Clave visual</span><strong>{dynamicCode}</strong><small>Presentación decorativa · no es una clave de acceso</small></div>
+                    </section>
 
-                {/* ==================================
-                    SALDO
-                ================================== */}
-
-                <section className="balance-card">
-
-                    <p>
-                        Saldo disponible
-                    </p>
-
-                    {loading ? (
-                        <h2>
-                            Cargando...
-                        </h2>
-                    ) : (
-                        <h2>
-                            $
-                            {formatoSaldo(
-                                wallet?.saldo
-                            )}{" "}
-                            {wallet?.moneda ||
-                                "COP"}
-                        </h2>
-                    )}
-
-                    <div className="wallet-status">
-                        ●{" "}
-                        {wallet?.estado ===
-                        "activa"
-                            ? "Billetera activa"
-                            : "Billetera inactiva"}
-                    </div>
-
-                </section>
-
-                {/* ==================================
-                    ACCIONES
-                ================================== */}
-
-                <section className="actions">
-
-                    <button
-                        onClick={() =>
-                            abrirModal(
-                                "recharge"
-                            )
-                        }
-                        disabled={
-                            wallet?.estado !==
-                            "activa"
-                        }
-                    >
-                        💵 Recargar
-                    </button>
-
-                    <button
-                        onClick={() =>
-                            abrirModal(
-                                "transfer"
-                            )
-                        }
-                        disabled={
-                            wallet?.estado !==
-                            "activa"
-                        }
-                    >
-                        💸 Transferir
-                    </button>
-
-                    <button
-                        onClick={() => {
-                            document
-                                .getElementById(
-                                    "historial"
-                                )
-                                ?.scrollIntoView({
-                                    behavior:
-                                        "smooth"
-                                });
-                        }}
-                    >
-                        📜 Historial
-                    </button>
-
-                </section>
+                    <aside className="quick-actions" aria-labelledby="quick-actions-title">
+                        <div className="quick-actions-header"><h2 id="quick-actions-title">Accesos rápidos</h2></div>
+                        <button onClick={() => abrirModal("recharge")} disabled={wallet?.estado !== "activa"}><span className="quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></span><span><strong>Recargar</strong><small>Agregar saldo</small></span></button>
+                        <button onClick={() => abrirModal("transfer")} disabled={wallet?.estado !== "activa"}><span className="quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16M16 4l4 4-4 4M20 16H4M8 12l-4 4 4 4" /></svg></span><span><strong>Transferir</strong><small>Enviar dinero</small></span></button>
+                        <button onClick={() => document.getElementById("historial")?.scrollIntoView({ behavior: "smooth" })}><span className="quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h10v18H7zM10 7h4M10 11h4M10 15h4" /></svg></span><span><strong>Movimientos</strong><small>Ver historial</small></span></button>
+                    </aside>
+                </div>
 
                 {/* ==================================
                     HISTORIAL
@@ -1688,8 +1615,7 @@ function Dashboard() {
                         <div>
 
                             <h2>
-                                Últimas
-                                transacciones
+                                Movimientos recientes
                             </h2>
 
                             <p>

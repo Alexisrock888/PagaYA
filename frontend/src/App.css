@@ -1174,6 +1174,11 @@ input {
 .actions button {
     padding: 20px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
     border: none;
     border-radius: 16px;
 
@@ -1192,6 +1197,12 @@ input {
         box-shadow 0.2s ease,
         background 0.2s ease,
         color 0.2s ease;
+}
+
+.action-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
 }
 
 .actions button:hover:not(:disabled) {

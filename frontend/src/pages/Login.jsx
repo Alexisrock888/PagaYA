@@ -249,7 +249,7 @@ function Login() {
                 </form>
 
                 <div className="auth-links">
-                    <Link to="/" className="forgot-password-link">
+                    <Link to="/iniciar-sesion" className="forgot-password-link">
                         <span>¿Olvidó su contraseña?</span>
                     </Link>
                 </div>

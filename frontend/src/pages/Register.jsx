@@ -63,7 +63,7 @@ function Register() {
             await api.register(form);
             setSuccess("Cuenta creada correctamente. Redirigiendo...");
             setTimeout(() => {
-                navigate("/", {
+                navigate("/iniciar-sesion", {
                     state: {
                         message: "Cuenta creada correctamente"
                     }
@@ -235,7 +235,7 @@ function Register() {
                             <p className="login-question">¿Ya tienes cuenta?</p>
                             <p className="login-description">Accede rápidamente a tu cuenta</p>
                         </div>
-                        <Link to="/" className="login-button">
+                        <Link to="/iniciar-sesion" className="login-button">
                             <span>Iniciar Sesión</span>
                             <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M5 12h14M12 5l7 7-7 7" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />

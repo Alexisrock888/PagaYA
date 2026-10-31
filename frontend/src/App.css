@@ -2348,7 +2348,90 @@ input {
         text-align: center;
     }
 
-    .receipt-actions {
+.receipt-actions {
         margin-top: 18px;
     }
 }
+
+/* ======================================================
+   IDENTIDAD PagaYA · VERDE
+====================================================== */
+:root {
+    --brand-green: #087a53;
+    --brand-green-dark: #07583d;
+    --brand-green-bright: #10a66c;
+    --brand-green-soft: #e9f6ed;
+    --brand-ink: #173a2b;
+}
+
+body {
+    background: #f5f8f6;
+    color: #173a2b;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.auth-page {
+    background:
+        radial-gradient(circle at 9% 10%, rgba(123, 204, 146, .19), transparent 30%),
+        radial-gradient(circle at 94% 88%, rgba(55, 151, 99, .13), transparent 34%),
+        linear-gradient(135deg, #f0f8f1 0%, #fff 52%, #f3f8f1 100%);
+}
+
+.auth-page::before { background: rgba(73, 170, 108, .11); }
+.auth-page::after { background: rgba(26, 126, 77, .09); }
+.auth-page .shape { background: rgba(118, 197, 137, .12); }
+.auth-page .shape-two { background: rgba(49, 148, 91, .09); }
+.auth-page .shape-three { background: rgba(31, 121, 76, .08); }
+.auth-page .shape-four { background: rgba(136, 203, 148, .15); }
+.auth-page .shape-five { background: rgba(63, 154, 94, .1); }
+
+.auth-card {
+    border-color: rgba(37, 110, 69, .1);
+    box-shadow: 0 24px 60px rgba(28, 81, 49, .12);
+}
+
+.brand-wordmark, .brand-paga { color: #16452f; }
+.brand-ya { background: linear-gradient(135deg, #0c9b64 0%, #07583d 100%); box-shadow: 0 10px 20px rgba(7, 88, 61, .17); }
+.auth-card h2 { color: #173a2b; }
+.auth-card label { color: #395646; }
+.auth-card input { border-color: #dce9df; color: #173a2b; }
+.auth-card input::placeholder { color: #99a89d; }
+.auth-card input:focus { border-color: #138257; box-shadow: 0 0 0 4px rgba(19, 130, 87, .1); }
+.toggle-password { color: #148258; }
+.toggle-password:hover { background: rgba(19, 130, 87, .08); }
+.social-button { border-color: #dce9df; color: #16452f; }
+.social-button:hover { border-color: #138257; box-shadow: 0 4px 12px rgba(19, 130, 87, .1); }
+.divider { color: #92a096; }
+.divider::before, .divider::after { background: #dce9df; }
+.tab-button { border-color: #dce9df; color: #128056; }
+.tab-button.active { border-color: #16855a; background: linear-gradient(135deg, rgba(19, 130, 87, .1), rgba(7, 88, 61, .04)); color: #14583d; }
+.tab-button:hover:not(.active) { border-color: #a7c6ae; background: rgba(19, 130, 87, .04); }
+.strength-bar { background: #e1ece3; }
+.strength-fill.strength-4 { background: #24a66b; }
+.strength-label.strength-4 { color: #168052; }
+.checkbox-label { color: #395646; }
+.checkbox-label input { accent-color: #087a53; }
+.biometric-primary-button { border-color: #16855a; background: linear-gradient(135deg, rgba(19, 130, 87, .08), rgba(7, 88, 61, .035)); color: #164d35; }
+.biometric-primary-button:hover { border-color: #07583d; background: linear-gradient(135deg, rgba(19, 130, 87, .15), rgba(7, 88, 61, .08)); box-shadow: 0 8px 20px rgba(19, 130, 87, .16); }
+.biometric-primary-button:active { box-shadow: 0 4px 12px rgba(19, 130, 87, .12); }
+.fingerprint-icon, .biometric-label { color: #138257; }
+.biometric-hint, .signup-description, .login-description, .register-subtitle { color: #839188; }
+.primary-button { background: linear-gradient(135deg, #087a53 0%, #07583d 100%); box-shadow: 0 14px 28px rgba(7, 88, 61, .2); }
+.primary-button:hover { box-shadow: 0 18px 32px rgba(7, 88, 61, .25); }
+.primary-button:active { box-shadow: 0 10px 18px rgba(7, 88, 61, .17); }
+.forgot-password-link, .forgot-password-link span::after, .terms-checkbox a { color: #148258; }
+.forgot-password-link span::after { background: #148258; }
+.signup-card, .login-card { background: linear-gradient(135deg, rgba(19, 130, 87, .1), rgba(7, 88, 61, .035)); border-color: rgba(19, 130, 87, .18); }
+.signup-card:hover, .login-card:hover { background: linear-gradient(135deg, rgba(19, 130, 87, .15), rgba(7, 88, 61, .07)); border-color: rgba(19, 130, 87, .3); box-shadow: 0 8px 20px rgba(19, 130, 87, .1); }
+.signup-question, .login-question { color: #164d35; }
+.signup-button, .login-button { background: linear-gradient(135deg, #10865a 0%, #07583d 100%); box-shadow: 0 6px 14px rgba(19, 130, 87, .17); }
+.signup-button:hover, .login-button:hover { box-shadow: 0 10px 22px rgba(19, 130, 87, .23); }
+.signup-button:active, .login-button:active { box-shadow: 0 4px 10px rgba(19, 130, 87, .16); }
+.terms-checkbox a:hover { color: #07583d; }
+
+.dashboard { background: #f5f8f6; }
+.dashboard-header { border-bottom-color: #e4ece6; }
+.dashboard-header strong { color: #087a53; }
+.actions button:hover:not(:disabled) { box-shadow: 0 12px 30px rgba(18, 135, 87, .12); }
+.actions button:first-child:hover:not(:disabled) { background: #e8f6ed; color: #087a53; }
+.actions button:focus-visible, .primary-button:focus-visible, .operation-button:focus-visible, .cancel-button:focus-visible, .modal-close:focus-visible, .logout-button:focus-visible { outline-color: rgba(18, 135, 87, .3); }

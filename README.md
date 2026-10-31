@@ -2,6 +2,10 @@
 
 Billetera digital (monedero de pagos) construida con un backend Node.js/Express y un frontend React.
 
+## Acceso al proyecto
+
+Puedes usar la aplicación en línea aquí: **https://alexisrock888.github.io/PagaYA/**
+
 ## Tecnologías
 
 | Parte     | Stack                                                              |

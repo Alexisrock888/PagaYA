@@ -68,13 +68,3 @@ Abre **http://localhost:5173** en el navegador.
 
 - El archivo `backend/.env` contiene credenciales de conexión. Si vas a usar el proyecto en producción, **rota las claves** (MongoDB, `JWT_SECRET` y SQL Server) y usa `backend/.env.example` como plantilla.
 - `server.js` requiere conexión exitosa a **MongoDB y SQL Server** para iniciar. Si solo quieres probar auth/wallet (que usan MongoDB), haz opcional la conexión a SQL Server en `src/config/sqlserver.js`.
-
-## Recuperación de contraseña
-
-- `POST /api/auth/forgot-password`: solicita la recuperación sin revelar si el correo existe.
-- `POST /api/auth/reset-password`: valida el token temporal y actualiza la contraseña.
-- El frontend expone las rutas HashRouter `/recuperar-clave` y `/restablecer-clave?token=...`.
-- Los tokens se envían por correo, se guardan como hash SHA-256 y expiran a los 30 minutos.
-- Configura las variables SMTP en `backend/.env` usando `backend/.env.example`: `FRONTEND_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD` y `MAIL_FROM`.
-- Si SMTP no está configurado, la API mantiene una respuesta segura y no revela el estado de la cuenta.
-- Límites locales: 5 solicitudes de recuperación por IP cada 15 minutos y 10 intentos de cambio por IP cada 15 minutos.

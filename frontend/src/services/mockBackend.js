@@ -527,42 +527,6 @@ function mockReceipt(db, referencia) {
     };
 }
 
-async function sha256Mock(value) {
-    const bytes = new TextEncoder().encode(value);
-    const digest = await crypto.subtle.digest("SHA-256", bytes);
-    return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
-}
-
-async function mockForgotPassword(db, body) {
-    const email = String(body.email || "").trim().toLowerCase();
-    const usuario = db.users.find((item) => item.email === email);
-    if (usuario) {
-        const token = generarId();
-        usuario.resetTokenHash = await sha256Mock(token);
-        usuario.resetTokenExpires = Date.now() + 30 * 60 * 1000;
-        guardarDb(db);
-        localStorage.setItem("pagaya_mock_reset_token", token);
-    }
-    return { message: "Si el correo está registrado, recibirás instrucciones para restablecer tu contraseña." };
-}
-
-async function mockResetPassword(db, body) {
-    const token = String(body.token || "");
-    const password = String(body.password || "");
-    if (password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-        throw new Error("La contraseña debe tener mínimo 8 caracteres, una letra y un número.");
-    }
-    const hash = await sha256Mock(token);
-    const usuario = db.users.find((item) => item.resetTokenHash === hash && item.resetTokenExpires > Date.now());
-    if (!usuario) throw new Error("El enlace es inválido, expiró o ya fue utilizado.");
-    usuario.password = password;
-    delete usuario.resetTokenHash;
-    delete usuario.resetTokenExpires;
-    guardarDb(db);
-    localStorage.removeItem("pagaya_mock_reset_token");
-    return { message: "Contraseña restablecida correctamente." };
-}
-
 // ======================================================
 // ROUTER MOCK
 // ======================================================
@@ -589,14 +553,6 @@ export async function mockRequest(endpoint, options = {}) {
 
     if (method === "POST" && partes[0] === "auth" && partes[1] === "register") {
         return mockRegister(db, body);
-    }
-
-    if (method === "POST" && partes[0] === "auth" && partes[1] === "forgot-password") {
-        return mockForgotPassword(db, body);
-    }
-
-    if (method === "POST" && partes[0] === "auth" && partes[1] === "reset-password") {
-        return mockResetPassword(db, body);
     }
 
     if (method === "GET" && partes[0] === "auth" && partes[1] === "profile") {

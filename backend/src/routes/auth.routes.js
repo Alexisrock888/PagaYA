@@ -1,26 +1,14 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
 
 const User = require("../models/User");
 const Wallet = require("../models/Wallet");
 const verificarToken = require("../middleware/auth.middleware");
 const sqlSync = require("../services/sqlSync");
-const { smtpConfigured, sendPasswordResetEmail } = require("../services/mailService");
 
 const router = express.Router();
-const forgotAttempts = new Map();
-const resetAttempts = new Map();
 
-function isRateLimited(store, key, limit) {
-    const now = Date.now();
-    const recent = (store.get(key) || []).filter((time) => now - time < 15 * 60 * 1000);
-    if (recent.length >= limit) return true;
-    recent.push(now);
-    store.set(key, recent);
-    return false;
-}
 
 // ======================================================
 // REGISTRO DE USUARIO
@@ -293,74 +281,6 @@ router.post("/login", async (req, res) => {
     }
 });
 
-
-// ======================================================
-// RECUPERACIÓN DE CONTRASEÑA
-// ======================================================
-router.post("/forgot-password", async (req, res) => {
-    const genericMessage = "Si el correo está registrado, recibirás instrucciones para restablecer tu contraseña.";
-    const email = String(req.body.email || "").trim().toLowerCase();
-    const key = req.ip || "unknown";
-    if (isRateLimited(forgotAttempts, key, 5)) {
-        return res.status(429).json({ message: "Demasiadas solicitudes. Inténtalo nuevamente más tarde." });
-    }
-    if (!email) return res.status(200).json({ message: genericMessage });
-
-    try {
-        const usuario = await User.findOne({ email });
-        if (usuario) {
-            const rawToken = crypto.randomBytes(32).toString("hex");
-            const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
-            usuario.resetPasswordTokenHash = tokenHash;
-            usuario.resetPasswordExpires = new Date(Date.now() + 30 * 60 * 1000);
-            await usuario.save();
-            if (smtpConfigured()) {
-                try {
-                    await sendPasswordResetEmail(usuario.email, usuario.nombre, rawToken);
-                } catch (error) {
-                    console.error("No fue posible enviar el correo de recuperación");
-                }
-            }
-        }
-    } catch (error) {
-        console.error("Error procesando recuperación de contraseña");
-    }
-    return res.status(200).json({ message: genericMessage });
-});
-
-router.post("/reset-password", async (req, res) => {
-    const key = req.ip || "unknown";
-    if (isRateLimited(resetAttempts, key, 10)) {
-        return res.status(429).json({ message: "Demasiados intentos. Inténtalo nuevamente más tarde." });
-    }
-
-    const token = String(req.body.token || "");
-    const password = String(req.body.password || "");
-    if (!token || password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-        return res.status(400).json({ message: "Los datos de restablecimiento no son válidos." });
-    }
-
-    try {
-        const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-        const usuario = await User.findOne({
-            resetPasswordTokenHash: tokenHash,
-            resetPasswordExpires: { $gt: new Date() }
-        }).select("+resetPasswordTokenHash +resetPasswordExpires");
-
-        if (!usuario) {
-            return res.status(400).json({ message: "El enlace es inválido, expiró o ya fue utilizado." });
-        }
-
-        usuario.password = await bcrypt.hash(password, 12);
-        usuario.resetPasswordTokenHash = null;
-        usuario.resetPasswordExpires = null;
-        await usuario.save();
-        return res.status(200).json({ message: "Contraseña restablecida correctamente." });
-    } catch (error) {
-        console.error("Error restableciendo contraseña");
-        return res.status(500).json({ message: "No fue posible restablecer la contraseña." });
-    }
-});
 
 // ======================================================
 // PERFIL DEL USUARIO AUTENTICADO

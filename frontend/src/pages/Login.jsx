@@ -249,8 +249,8 @@ function Login() {
                 </form>
 
                 <div className="auth-links">
-                    <Link to="/recuperar-clave" className="forgot-password-link">
-                        <span>¿Olvidaste tu clave?</span>
+                    <Link to="/" className="forgot-password-link">
+                        <span>¿Olvidó su contraseña?</span>
                     </Link>
                 </div>
 

@@ -41,11 +41,9 @@ input {
 .auth-page .shape-five {
     content: "";
     position: absolute;
-    z-index: 0;
     border-radius: 50%;
     filter: blur(0.3px);
     animation: floatShapes 18s ease-in-out infinite alternate;
-    pointer-events: none;
 }
 
 .auth-page::before {
@@ -131,8 +129,6 @@ input {
 }
 
 .auth-card {
-    position: relative;
-    z-index: 1;
     width: min(100%, 430px);
     background: rgba(255, 255, 255, 0.96);
     padding: 36px 32px 28px;
